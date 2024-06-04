@@ -243,6 +243,7 @@ export class DotnetRuntimeExtensionResolver implements IHostExecutableResolver {
             case 'linux-x64':
             case 'alpine-x64':
             case 'darwin-x64':
+            case 'freebsd-x64':
                 return 'x64';
             case 'win32-ia32':
                 return 'x86';
