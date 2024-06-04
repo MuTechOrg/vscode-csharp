@@ -135,6 +135,10 @@ export class PlatformInformation {
         return this.platform.startsWith('linux');
     }
 
+    public isFreeBsd(): boolean {
+        return this.platform === 'freebsd';
+    }
+
     public toString(): string {
         let result = `${this.platform}, ${this.architecture}`;
         if (this.distribution !== undefined) {
@@ -148,7 +152,7 @@ export class PlatformInformation {
         const platform = os.platform();
         if (platform === 'win32') {
             return new PlatformInformation(platform, PlatformInformation.GetWindowsArchitecture());
-        } else if (platform === 'darwin') {
+        } else if (platform === 'darwin' || platform === 'freebsd') {
             return new PlatformInformation(platform, await PlatformInformation.GetUnixArchitecture());
         } else if (platform === 'linux') {
             const [isMusl, architecture, distribution] = await Promise.all([
