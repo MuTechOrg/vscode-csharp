@@ -55,6 +55,7 @@ export const platformSpecificPackages: VSIXPlatformInfo[] = [
     },
     { vsceTarget: 'darwin-x64', rid: 'osx-x64', platformInfo: new PlatformInformation('darwin', 'x86_64') },
     { vsceTarget: 'darwin-arm64', rid: 'osx-arm64', platformInfo: new PlatformInformation('darwin', 'arm64') },
+    { vsceTarget: 'freebsd-x64', rid: 'freebsd-x64', platformInfo: new PlatformInformation('freebsd', 'x86_64') },
 ];
 
 interface NugetPackageInfo {
@@ -95,6 +96,8 @@ for (const p of platformSpecificPackages) {
         platformName = 'linux';
     } else if (p.platformInfo.isMacOS()) {
         platformName = 'darwin';
+    } else if (p.platformInfo.isFreeBsd()) {
+        platformName = 'freebsd';
     } else {
         throw new Error(`Unexpected platform ${p.platformInfo.platform}`);
     }
@@ -109,6 +112,7 @@ for (const p of platformSpecificPackages) {
 gulp.task('vsix:release:package:windows', gulp.series(...vsixTasks.filter((t) => t.includes('windows'))));
 gulp.task('vsix:release:package:linux', gulp.series(...vsixTasks.filter((t) => t.includes('linux'))));
 gulp.task('vsix:release:package:darwin', gulp.series(...vsixTasks.filter((t) => t.includes('darwin'))));
+gulp.task('vsix:release:package:freebsd', gulp.series(...vsixTasks.filter((t) => t.includes('freebsd'))));
 gulp.task('vsix:release:package:neutral', async () => {
     await doPackageOffline(undefined);
 });
@@ -119,6 +123,7 @@ gulp.task(
         'vsix:release:package:windows',
         'vsix:release:package:linux',
         'vsix:release:package:darwin',
+        'vsix:release:package:freebsd',
         'vsix:release:package:neutral'
     )
 );
